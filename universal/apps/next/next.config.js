@@ -24,6 +24,17 @@ const nextConfig = {
       ...config.resolve.extensions,
     ];
 
+    // Add this rule to transpile @expo/html-elements
+    config.module.rules.push({
+      test: /node_modules\/@expo\/html-elements\/.*\.js$/,
+      use: {
+        loader: 'babel-loader',
+        options: {
+          presets: ['@babel/preset-react'],
+        },
+      },
+    });
+
     // Ignore the problematic package
     config.module.rules.push({
       test: /node_modules\/@react-native\/assets-registry\/registry\.js$/,
