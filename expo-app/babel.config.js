@@ -1,3 +1,4 @@
+// babel.config.js
 const imageBabel = require("@unitools/babel-plugin-universal-image");
 const path = require("path");
 
@@ -19,7 +20,9 @@ module.exports = function (api) {
           },
         },
       ],
+      "@babel/plugin-transform-flow-strip-types",
       "react-native-reanimated/plugin",
+      // Add any additional plugins if necessary for your project
     ],
   };
 };

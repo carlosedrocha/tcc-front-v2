@@ -1,10 +1,10 @@
-const imageBabel = require("@unitools/babel-plugin-universal-image");
 const path = require("path");
 
 module.exports = function (api) {
   api.cache(true);
   return {
     presets: [
+      // Use only relevant presets for your project
       ["babel-preset-expo", { jsxImportSource: "nativewind" }],
       "nativewind/babel",
     ],
@@ -19,7 +19,9 @@ module.exports = function (api) {
           },
         },
       ],
+      "@babel/plugin-transform-flow-strip-types",
       "react-native-reanimated/plugin",
+      // Add other necessary plugins here, avoiding those that might conflict with SWC
     ],
   };
 };

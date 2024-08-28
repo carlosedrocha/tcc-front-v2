@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const { DefinePlugin } = require("webpack");
 
-module.exports = {
+const nextConfig = {
   reactStrictMode: true,
   transpilePackages: [
     "@gluestack-ui/nativewind-utils",
@@ -11,12 +11,11 @@ module.exports = {
   webpack: (config) => {
     config.resolve.alias = {
       ...(config.resolve.alias || {}),
-      // Transform all direct `react-native` imports to `react-native-web`
       "react-native$": "react-native-web",
+      "@unitools/router": "@unitools/router-next",
+      "@unitools/image": "@unitools/image-next",
+      "@unitools/link": "@unitools/link-next",
     };
-    config.resolve.alias["@unitools/router"] = "@unitools/router-next";
-    config.resolve.alias["@unitools/image"] = "@unitools/image-next";
-    config.resolve.alias["@unitools/link"] = "@unitools/link-next";
     config.resolve.extensions = [
       ".web.js",
       ".web.jsx",
@@ -24,6 +23,12 @@ module.exports = {
       ".web.tsx",
       ...config.resolve.extensions,
     ];
+
+    // Ignore the problematic package
+    config.module.rules.push({
+      test: /node_modules\/@react-native\/assets-registry\/registry\.js$/,
+      use: 'ignore-loader'
+    });
 
     config.plugins.push(
       new DefinePlugin({
@@ -35,3 +40,5 @@ module.exports = {
   },
   typescript: { ignoreBuildErrors: true },
 };
+
+module.exports = nextConfig;
